@@ -1,19 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
 import s from "./WordProcessing.module.scss";
 
 interface IProps {
-    currentCharChecking: string;
-    setCurrentCharChecking: Dispatch<SetStateAction<string>>;
     text: string;
     charCheckingIndex: number;
 }
 
-const WordProcessing: React.FC<IProps> = ({
-    currentCharChecking,
-    setCurrentCharChecking,
-    charCheckingIndex,
-    text,
-}) => {
+const WordProcessing: React.FC<IProps> = ({ charCheckingIndex, text }) => {
     const splittedText = text.split("");
 
     return (
@@ -21,7 +13,6 @@ const WordProcessing: React.FC<IProps> = ({
             {splittedText.map((char, index) => {
                 let className = undefined;
                 if (charCheckingIndex === index) {
-                    setCurrentCharChecking(char);
                     className = s.checking;
                 }
                 if (charCheckingIndex < index) {
@@ -30,7 +21,11 @@ const WordProcessing: React.FC<IProps> = ({
                 if (charCheckingIndex > index) {
                     className = s.completed;
                 }
-                return <span className={className}>{char}</span>;
+                return (
+                    <span key={index} className={className}>
+                        {char}
+                    </span>
+                );
             })}
         </div>
     );

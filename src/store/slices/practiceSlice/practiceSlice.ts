@@ -32,7 +32,9 @@ const practiceSlice = createSlice({
         });
         builder.addCase(fetchTextByKeyboardLayoutType.fulfilled, (state, action) => {
             state.loading = "succeeded";
-            state.text = action.payload;
+            if (action.payload) {
+                state.text = action.payload;
+            }
         });
         builder.addCase(fetchTextByKeyboardLayoutType.rejected, (state) => {
             state.loading = "failed";
