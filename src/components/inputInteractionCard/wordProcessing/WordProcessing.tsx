@@ -1,15 +1,19 @@
+import { Dispatch, SetStateAction } from "react";
 import s from "./WordProcessing.module.scss";
 
-interface IProps {}
+interface IProps {
+    currentCharChecking: string;
+    setCurrentCharChecking: Dispatch<SetStateAction<string>>;
+}
 
-const WordProcessing: React.FC<IProps> = () => {
+const WordProcessing: React.FC<IProps> = ({ currentCharChecking, setCurrentCharChecking }) => {
     const text =
         "зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов ";
 
     return (
         <div className={s.container}>
-            {text.split("").map((symbol) => (
-                <span>{symbol}</span>
+            {text.split("").map((char) => (
+                <span className={s.unchecked}>{char}</span>
             ))}
         </div>
     );

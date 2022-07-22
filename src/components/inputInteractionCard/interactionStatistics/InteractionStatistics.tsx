@@ -9,12 +9,7 @@ const InteractionStatistics: React.FC<IProps> = () => {
     return (
         <div className={s.container}>
             <div className={s.statistics}>
-                <StatisticsItem
-                    iconName={SvgIcon.SPEED}
-                    name="Скорость"
-                    unit=" зн/мин"
-                    value={552}
-                />
+                <StatisticsItem iconName={SvgIcon.SPEED} name="Скорость" unit=" зн/м" value={552} />
                 <StatisticsItem iconName={SvgIcon.ACCURACY} name="Точность" unit="%" value={100} />
             </div>
             <div className={s.buttons}>

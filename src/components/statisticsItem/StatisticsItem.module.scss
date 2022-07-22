@@ -3,9 +3,9 @@
 .container {
     display: flex;
     align-items: center;
-    margin-right: rem(25);
+    margin-right: rem(30);
     .icon {
-        margin-right: rem(15);
+        margin-right: rem(10);
         svg {
             width: rem(45);
             height: rem(45);
@@ -17,6 +17,9 @@
         .name {
             font-weight: bold;
             margin-bottom: rem(3);
+        }
+        .value {
+            font-size: rem(15);
         }
     }
 }
