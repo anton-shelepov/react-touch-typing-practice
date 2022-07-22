@@ -9,7 +9,9 @@ interface IProps {}
 
 const InputInteractionCard: React.FC<IProps> = () => {
     const [inputValue, setInputValue] = useState("");
+
     const [currentCharChecking, setCurrentCharChecking] = useState("");
+    const [charCheckingIndex, setCharCheckingIndex] = useState(0);
 
     const practiceState = useAppSelector((state) => state.practice);
 
@@ -17,7 +19,11 @@ const InputInteractionCard: React.FC<IProps> = () => {
         e.currentTarget.focus();
     };
     const onHandleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        const value = e.currentTarget.value;
         setInputValue(e.currentTarget.value);
+        if (value.substring(value.length - 1) === currentCharChecking) {
+            setCharCheckingIndex(charCheckingIndex + 1);
+        }
     };
 
     return (
@@ -37,6 +43,7 @@ const InputInteractionCard: React.FC<IProps> = () => {
                         currentCharChecking={currentCharChecking}
                         setCurrentCharChecking={setCurrentCharChecking}
                         text={practiceState.text}
+                        charCheckingIndex={charCheckingIndex}
                     />
                     <InteractionStatistics />
                 </>
