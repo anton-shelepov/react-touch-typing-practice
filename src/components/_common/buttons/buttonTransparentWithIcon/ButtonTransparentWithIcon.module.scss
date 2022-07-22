@@ -1,6 +1,25 @@
+@import "/src/utils/scss";
+
 .rounded_button {
+    display: flex;
+    align-items: center;
     background-color: transparent;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    font-weight: bold;
+    font-size: rem(18);
+    transition: opacity 0.3s;
+    &:hover {
+        opacity: 0.7;
+        svg {
+            transform: rotate(260deg);
+        }
+    }
+
+    svg {
+        transition: transform 0.3s;
+        margin-right: rem(10);
+        width: rem(25);
+        height: rem(25);
+    }
 }
