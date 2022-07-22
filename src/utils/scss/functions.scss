@@ -1,0 +1,6 @@
+@import "./variables.scss";
+
+// Calculating size in PX into REM
+@function rem($sizeInPX) {
+    @return calc($sizeInPX / $base-font-size) + rem;
+}

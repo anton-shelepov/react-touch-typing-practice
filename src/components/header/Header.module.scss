@@ -1,0 +1,25 @@
+@import "/src/utils/scss";
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: $color-orange-light;
+    height: rem(50);
+
+    .container {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        max-width: rem($content-width);
+        width: 100%;
+        margin: 0 auto;
+
+        .title {
+            color: white;
+            font-size: rem(20);
+            font-weight: 400;
+        }
+    }
+}

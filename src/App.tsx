@@ -1,9 +1,14 @@
-import { BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/header/Header";
+import PracticePage from "./containers/_pages/practicePage/PracticePage";
 
 function App() {
     return (
         <BrowserRouter>
-            <Routes></Routes>
+            <Header />
+            <Routes>
+                <Route path="/" element={<PracticePage />} />
+            </Routes>
         </BrowserRouter>
     );
 }

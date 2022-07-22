@@ -1,0 +1,7 @@
+@mixin page-wrapper {
+    max-width: rem(1200);
+    width: 100%;
+    margin: 0 auto;
+    padding: rem(15);
+    margin-top: rem(65);
+}
