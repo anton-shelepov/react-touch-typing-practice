@@ -1,11 +1,15 @@
 @import "/src/utils/scss";
 
 .container {
-    border: 2px solid $color-orange-dark;
+    position: relative;
+    border: 2px solid $color-orange-light;
     border-radius: rem(25);
     max-width: rem(800);
     margin: 0 auto;
+    overflow: hidden;
+
     .input_hidden {
-        position: absolute;
+        position: fixed;
+        top: -100%;
     }
 }

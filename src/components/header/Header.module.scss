@@ -16,10 +16,18 @@
         width: 100%;
         margin: 0 auto;
 
+        .main_logo {
+            max-height: 95%;
+            margin-right: rem(15);
+        }
+
         .title {
             color: white;
-            font-size: rem(20);
+            font-size: rem(16);
             font-weight: 400;
+            padding: rem(5);
+            letter-spacing: 2.5px;
+            border-bottom: 1px dashed white;
         }
     }
 }

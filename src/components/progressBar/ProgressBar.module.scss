@@ -1,0 +1,11 @@
+@import "/src/utils/scss";
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background-color: $color-orange-light;
+    border-radius: 50px;
+    transition: width 0.3s;
+}

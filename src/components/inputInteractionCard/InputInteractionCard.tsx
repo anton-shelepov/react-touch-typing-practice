@@ -1,6 +1,7 @@
-import { ChangeEventHandler, FocusEventHandler, useState } from "react";
+import { ChangeEventHandler, FocusEventHandler, useRef, useState } from "react";
 import useAppSelector from "../../utils/hooks/useAppSelector";
 import Loader from "../loader/Loader";
+import ProgressBar from "../progressBar/ProgressBar";
 import s from "./InputInteractionCard.module.scss";
 import InteractionStatistics from "./interactionStatistics/InteractionStatistics";
 import WordProcessing from "./wordProcessing/WordProcessing";
@@ -8,21 +9,25 @@ import WordProcessing from "./wordProcessing/WordProcessing";
 interface IProps {}
 
 const InputInteractionCard: React.FC<IProps> = () => {
-    const [inputValue, setInputValue] = useState("");
-
     const [currentCharChecking, setCurrentCharChecking] = useState("");
-    const [charCheckingIndex, setCharCheckingIndex] = useState(0);
+    const [currentCharCheckingIndex, setCurrentCharCheckingIndex] = useState(0);
+
+    const progress = useRef(0);
 
     const practiceState = useAppSelector((state) => state.practice);
+
+    if (practiceState.text) {
+        progress.current = (currentCharCheckingIndex / practiceState.text.length) * 100;
+    }
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
         e.currentTarget.focus();
     };
+
     const onHandleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const value = e.currentTarget.value;
-        setInputValue(e.currentTarget.value);
         if (value.substring(value.length - 1) === currentCharChecking) {
-            setCharCheckingIndex(charCheckingIndex + 1);
+            setCurrentCharCheckingIndex(currentCharCheckingIndex + 1);
         }
     };
 
@@ -35,15 +40,15 @@ const InputInteractionCard: React.FC<IProps> = () => {
                     <input
                         className={s.input_hidden}
                         onChange={onHandleChange}
-                        value={inputValue}
                         onBlur={onHandleBlur}
                         autoFocus={true}
                     />
+                    <ProgressBar progress={progress.current} />
                     <WordProcessing
                         currentCharChecking={currentCharChecking}
                         setCurrentCharChecking={setCurrentCharChecking}
                         text={practiceState.text}
-                        charCheckingIndex={charCheckingIndex}
+                        charCheckingIndex={currentCharCheckingIndex}
                     />
                     <InteractionStatistics />
                 </>
