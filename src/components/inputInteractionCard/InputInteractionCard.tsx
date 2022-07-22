@@ -1,5 +1,6 @@
 import { ChangeEventHandler, FocusEventHandler, useState } from "react";
 import useAppSelector from "../../utils/hooks/useAppSelector";
+import Loader from "../loader/Loader";
 import s from "./InputInteractionCard.module.scss";
 import InteractionStatistics from "./interactionStatistics/InteractionStatistics";
 import WordProcessing from "./wordProcessing/WordProcessing";
@@ -10,7 +11,7 @@ const InputInteractionCard: React.FC<IProps> = () => {
     const [inputValue, setInputValue] = useState("");
     const [currentCharChecking, setCurrentCharChecking] = useState("");
 
-    const text = useAppSelector((state) => state.practice.text);
+    const practiceState = useAppSelector((state) => state.practice);
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
         e.currentTarget.focus();
@@ -19,22 +20,27 @@ const InputInteractionCard: React.FC<IProps> = () => {
         setInputValue(e.currentTarget.value);
     };
 
-    console.log(text);
-
     return (
         <div className={s.container}>
-            <input
-                className={s.input_hidden}
-                onChange={onHandleChange}
-                value={inputValue}
-                onBlur={onHandleBlur}
-                autoFocus={true}
-            />
-            <WordProcessing
-                currentCharChecking={currentCharChecking}
-                setCurrentCharChecking={setCurrentCharChecking}
-            />
-            <InteractionStatistics />
+            {practiceState.loading === "pending" || practiceState.text === undefined ? (
+                <Loader />
+            ) : (
+                <>
+                    <input
+                        className={s.input_hidden}
+                        onChange={onHandleChange}
+                        value={inputValue}
+                        onBlur={onHandleBlur}
+                        autoFocus={true}
+                    />
+                    <WordProcessing
+                        currentCharChecking={currentCharChecking}
+                        setCurrentCharChecking={setCurrentCharChecking}
+                        text={practiceState.text}
+                    />
+                    <InteractionStatistics />
+                </>
+            )}
         </div>
     );
 };

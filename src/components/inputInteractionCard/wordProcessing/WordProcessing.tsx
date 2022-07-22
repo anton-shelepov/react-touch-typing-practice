@@ -4,6 +4,7 @@ import s from "./WordProcessing.module.scss";
 interface IProps {
     currentCharChecking: string;
     setCurrentCharChecking: Dispatch<SetStateAction<string>>;
+    text: string;
 }
 
 const WordProcessing: React.FC<IProps> = ({ currentCharChecking, setCurrentCharChecking }) => {

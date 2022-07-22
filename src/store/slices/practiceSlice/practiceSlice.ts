@@ -19,6 +19,7 @@ export const fetchTextByKeyboardLayoutType = createAsyncThunk(
 
 const initialState: IPracticeState = {
     text: "",
+    loading: "idle",
 };
 
 const practiceSlice = createSlice({
@@ -26,8 +27,15 @@ const practiceSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+        builder.addCase(fetchTextByKeyboardLayoutType.pending, (state) => {
+            state.loading = "pending";
+        });
         builder.addCase(fetchTextByKeyboardLayoutType.fulfilled, (state, action) => {
+            state.loading = "succeeded";
             state.text = action.payload;
+        });
+        builder.addCase(fetchTextByKeyboardLayoutType.rejected, (state) => {
+            state.loading = "failed";
         });
     },
 });
