@@ -5,7 +5,7 @@ import s from "./StatisticsItem.module.scss";
 interface IProps {
     iconName: SvgIcon;
     name: string;
-    value: number;
+    value: number | string;
     unit: string;
 }
 

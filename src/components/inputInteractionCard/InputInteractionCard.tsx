@@ -14,10 +14,12 @@ type CurrentCharChecking = {
 };
 
 const InputInteractionCard: React.FC<IProps> = ({ text }) => {
+    const [mistakesCount, setMistakesCount] = useState(0);
     const [currentCharChecking, setCurrentCharChecking] = useState<CurrentCharChecking>({
         char: text[0],
         index: 0,
     });
+
     const progress = useRef(0);
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
@@ -27,14 +29,15 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
     const onHandleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const value = e.currentTarget.value;
 
-        // Если был введен верный символ и в state имеется свойство text
-        if (value.substring(value.length - 1) === currentCharChecking.char && text) {
+        if (value.substring(value.length - 1) === currentCharChecking.char) {
             setCurrentCharChecking({
                 char: text[currentCharChecking.index + 1],
                 index: currentCharChecking.index + 1,
             });
             progress.current = (currentCharChecking.index / text.length) * 100;
+            return;
         }
+        setMistakesCount(mistakesCount + 1);
     };
 
     return (
@@ -46,8 +49,16 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
                 autoFocus={true}
             />
             <ProgressBar progress={progress.current} />
-            <WordProcessing text={text} charCheckingIndex={currentCharChecking.index} />
-            <InteractionStatistics />
+            <WordProcessing
+                text={text}
+                charCheckingIndex={currentCharChecking.index}
+                mistakesCount={mistakesCount}
+            />
+            <InteractionStatistics
+                completedCount={currentCharChecking.index}
+                mistakesCount={mistakesCount}
+                textLength={text.length}
+            />
         </div>
     );
 };

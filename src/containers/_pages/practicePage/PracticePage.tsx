@@ -11,7 +11,7 @@ const PracticePage: React.FC = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(fetchTextByKeyboardLayoutType(KeyboardLayout.RU));
+        dispatch(fetchTextByKeyboardLayoutType(KeyboardLayout.EN));
     }, []);
 
     const practiceState = useAppSelector((state) => state.practice);

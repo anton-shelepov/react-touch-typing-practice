@@ -3,6 +3,7 @@ enum SvgIcon {
     ACCURACY = "ACCURACY",
     RESTART = "RESTART",
     LOADER = "LOADER",
+    CLOCK = "CLOCK",
 }
 
 export default SvgIcon;
