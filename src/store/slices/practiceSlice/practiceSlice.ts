@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import practiceAPI from "../../../api/practice/practiceAPI";
 import KeyboardLayout from "../../../utils/enums/keyboardLayout.enum";
+import LoadingStatus from "../../../utils/enums/loadingStatus.enum";
+import PracticeStatus from "../../../utils/enums/practiceStatus.enum";
 import { IPracticeState } from "./types";
 
 export const fetchTextByKeyboardLayoutType = createAsyncThunk(
@@ -19,7 +21,8 @@ export const fetchTextByKeyboardLayoutType = createAsyncThunk(
 
 const initialState: IPracticeState = {
     text: "",
-    loading: "idle",
+    loading: LoadingStatus.IDLE,
+    status: PracticeStatus.PROCESSING,
 };
 
 const practiceSlice = createSlice({
@@ -28,16 +31,16 @@ const practiceSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchTextByKeyboardLayoutType.pending, (state) => {
-            state.loading = "pending";
+            state.loading = LoadingStatus.PENDING;
         });
         builder.addCase(fetchTextByKeyboardLayoutType.fulfilled, (state, action) => {
-            state.loading = "succeeded";
+            state.loading = LoadingStatus.SUCCEEDED;
             if (action.payload) {
                 state.text = action.payload;
             }
         });
         builder.addCase(fetchTextByKeyboardLayoutType.rejected, (state) => {
-            state.loading = "failed";
+            state.loading = LoadingStatus.FAILED;
         });
     },
 });

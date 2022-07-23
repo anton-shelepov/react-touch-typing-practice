@@ -1,0 +1,38 @@
+@import "/src/utils/scss";
+
+.container {
+    padding: rem(25);
+    line-height: 1.5;
+    font-size: rem(24);
+    letter-spacing: 2.5px;
+    white-space: pre-wrap;
+    transform: translateX(0);
+
+    .checking {
+        border-bottom: 3px solid $color-orange-dark !important;
+    }
+    .uncompleted {
+        color: rgba(0, 0, 0, 0.541);
+    }
+    .completed {
+        color: green;
+    }
+    .wrong {
+        color: red;
+        border-bottom: 1px dotted rgba(255, 0, 0, 0.555);
+    }
+
+    .blinking {
+        animation: 0.4s blinking;
+        animation-iteration-count: 1;
+    }
+
+    @keyframes blinking {
+        from {
+            opacity: 0.1;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}

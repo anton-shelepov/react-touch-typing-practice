@@ -5,15 +5,29 @@ interface IProps {
     text: string;
     charCheckingIndex: number;
     mistakesCount: number;
+    alwaysDisplayWrongs?: boolean;
 }
 
-const WordProcessing: React.FC<IProps> = ({ charCheckingIndex, text, mistakesCount }) => {
+const WordProcessing: React.FC<IProps> = ({
+    charCheckingIndex,
+    text,
+    mistakesCount,
+    alwaysDisplayWrongs = true,
+}) => {
     const spanElement = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         if (spanElement.current && mistakesCount) {
-            spanElement.current.style.color = "red";
-            spanElement.current.style.borderBottom = "1px dotted red";
+            if (alwaysDisplayWrongs) {
+                spanElement.current.style.color = "red";
+                spanElement.current.style.borderBottom = "1px dotted rgba(255, 0, 0, 0.555)";
+            } else {
+                spanElement.current.classList.add(s.wrong);
+            }
+            spanElement.current.classList.add(s.blinking);
+            setTimeout(() => {
+                spanElement.current!.classList.remove(s.blinking);
+            }, 100);
         }
     }, [mistakesCount]);
 

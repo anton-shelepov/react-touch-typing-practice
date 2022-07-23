@@ -1,8 +1,14 @@
-import { ChangeEventHandler, FocusEventHandler, useRef, useState } from "react";
-import ProgressBar from "../progressBar/ProgressBar";
+import {
+    ChangeEventHandler,
+    FocusEventHandler,
+    KeyboardEventHandler,
+    useRef,
+    useState,
+} from "react";
+import ProgressBar from "../../components/progressBar/ProgressBar";
 import s from "./InputInteractionCard.module.scss";
-import InteractionStatistics from "./interactionStatistics/InteractionStatistics";
-import WordProcessing from "./wordProcessing/WordProcessing";
+import InteractionStatistics from "../../components/interactionStatistics/InteractionStatistics";
+import WordProcessing from "../../components/wordProcessing/WordProcessing";
 
 interface IProps {
     text: string;
@@ -28,16 +34,19 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
 
     const onHandleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const value = e.currentTarget.value;
-
-        if (value.substring(value.length - 1) === currentCharChecking.char) {
+        if (value[value.length - 1] === currentCharChecking.char) {
+            progress.current = ((currentCharChecking.index + 1) / text.length) * 100;
             setCurrentCharChecking({
                 char: text[currentCharChecking.index + 1],
                 index: currentCharChecking.index + 1,
             });
-            progress.current = (currentCharChecking.index / text.length) * 100;
             return;
         }
         setMistakesCount(mistakesCount + 1);
+    };
+
+    const onBackspacePreventDefault: KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === "Backspace") e.preventDefault();
     };
 
     return (
@@ -46,6 +55,7 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
                 className={s.input_hidden}
                 onChange={onHandleChange}
                 onBlur={onHandleBlur}
+                onKeyDown={onBackspacePreventDefault}
                 autoFocus={true}
             />
             <ProgressBar progress={progress.current} />
