@@ -4,6 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 99999;
     width: 100%;
     background-color: $color-orange-light;
     height: rem(50);
@@ -16,6 +17,7 @@
         max-width: rem($content-width);
         width: 100%;
         margin: 0 auto;
+        padding: 0 rem(25);
 
         .main_logo {
             max-height: 95%;

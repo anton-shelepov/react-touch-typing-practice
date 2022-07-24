@@ -1,7 +1,4 @@
 import { useCallback } from "react";
-import { setPracticeStatus } from "../../store/slices/practiceSlice/practiceSlice";
-import PracticeStatus from "../../utils/enums/practiceStatus.enum";
-import useAppDispatch from "../../utils/hooks/useAppDispatch";
 import useTimeFromRender from "../../utils/hooks/useTimeFromRender";
 import SvgIcon from "../../utils/svg/svgIcon.enum";
 import StatisticsItem from "../statisticsItem/StatisticsItem";
@@ -11,10 +8,18 @@ import s from "./InteractionStatistics.module.scss";
 interface IProps {
     mistakesCount: number;
     completeCount: number;
+    onHandleRestartClick: () => void;
+    onReachedNewMaxSpeed: (value: number) => void;
+    maxSpeed: number;
 }
 
-const InteractionStatistics: React.FC<IProps> = ({ mistakesCount, completeCount }) => {
-    const dispatch = useAppDispatch();
+const InteractionStatistics: React.FC<IProps> = ({
+    mistakesCount,
+    completeCount,
+    onHandleRestartClick,
+    maxSpeed,
+    onReachedNewMaxSpeed,
+}) => {
     const [totalSecondsFromStart, formattedTimeFromStart] = useTimeFromRender();
 
     const totalInputsCount = mistakesCount + completeCount;
@@ -26,12 +31,12 @@ const InteractionStatistics: React.FC<IProps> = ({ mistakesCount, completeCount 
     };
 
     const getSpeed = useCallback(() => {
-        return Math.round((completeCount / totalSecondsFromStart) * 60) || 0;
+        const speed = Math.round((completeCount / totalSecondsFromStart) * 60) || 0;
+        if (speed > maxSpeed) {
+            maxSpeed = speed;
+        }
+        return speed;
     }, [totalSecondsFromStart]);
-
-    const onHandleRestartClick = () => {
-        dispatch(setPracticeStatus(PracticeStatus.PREPARING));
-    };
 
     return (
         <div className={s.container}>

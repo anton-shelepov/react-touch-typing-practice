@@ -3,7 +3,8 @@ import practiceAPI from "../../../api/practice/practiceAPI";
 import KeyboardLayout from "../../../utils/enums/keyboardLayout.enum";
 import LoadingStatus from "../../../utils/enums/loadingStatus.enum";
 import PracticeStatus from "../../../utils/enums/practiceStatus.enum";
-import { IPracticeState, PracticeProcessState, PracticeResultState } from "./types";
+import { RootState } from "../../store";
+import { CurrentCharChecking, IPracticeState, ProcessTime } from "./types";
 
 export const fetchTextByKeyboardLayoutType = createAsyncThunk(
     "practice/fetchTextByKeyboardLayoutType",
@@ -24,24 +25,59 @@ const initialState: IPracticeState = {
         keyboardLayoutType: KeyboardLayout.RU,
         withAlwaysDisplayErrors: true,
     },
-    process: {} as PracticeProcessState,
-    result: {} as PracticeResultState,
+    process: {
+        maxTypingSpeed: 0,
+        mistakesCount: 0,
+        text: "",
+        time: {
+            formattedTime: "00:00",
+            totalSeconds: 0,
+        },
+        currentCharChecking: {
+            char: "",
+            index: 0,
+        },
+    },
     loading: LoadingStatus.IDLE,
-    status: PracticeStatus.FINISHED,
+    status: PracticeStatus.PREPARING,
 };
 
 const practiceSlice = createSlice({
     name: "practice",
     initialState,
     reducers: {
+        setPracticeStatus(state, action: PayloadAction<PracticeStatus>) {
+            state.status = action.payload;
+        },
+
+        // Preparing state actions
+
         setKeyboardLayoutType(state, action: PayloadAction<KeyboardLayout>) {
             state.preparing.keyboardLayoutType = action.payload;
         },
         setWithAlwaysDisplayErrors(state, action: PayloadAction<boolean>) {
             state.preparing.withAlwaysDisplayErrors = action.payload;
         },
-        setPracticeStatus(state, action: PayloadAction<PracticeStatus>) {
-            state.status = action.payload;
+
+        // Process state actions
+
+        setMistakesCount(state, action: PayloadAction<number>) {
+            state.process.mistakesCount = action.payload;
+        },
+        setCurrentCharChecking(state, action: PayloadAction<CurrentCharChecking>) {
+            state.process.currentCharChecking = action.payload;
+        },
+        setTime(state, action: PayloadAction<ProcessTime>) {
+            state.process.time = action.payload;
+        },
+        setMaxTypingSpeed(state, action: PayloadAction<number>) {
+            state.process.maxTypingSpeed = action.payload;
+        },
+
+        // Reset data
+
+        resetProcessState(state) {
+            state.process = initialState.process;
         },
     },
     extraReducers: (builder) => {
@@ -60,7 +96,19 @@ const practiceSlice = createSlice({
     },
 });
 
-export const { setKeyboardLayoutType, setPracticeStatus, setWithAlwaysDisplayErrors } =
-    practiceSlice.actions;
+export const {
+    setKeyboardLayoutType,
+    setPracticeStatus,
+    setWithAlwaysDisplayErrors,
+    setCurrentCharChecking,
+    setMistakesCount,
+    setTime,
+    setMaxTypingSpeed,
+    resetProcessState,
+} = practiceSlice.actions;
+
+export const selectPracticeState = (state: RootState) => state.practice;
+export const selectPracticePreparingState = (state: RootState) => state.practice.preparing;
+export const selectPracticeProcessState = (state: RootState) => state.practice.process;
 
 export default practiceSlice;

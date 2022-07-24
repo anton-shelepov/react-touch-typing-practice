@@ -4,6 +4,7 @@ import CheckboxStyled from "../../components/_common/inputs/checkboxStyled/Check
 import RadioBorderIndication from "../../components/_common/inputs/radioBorderIndication/RadioBorderIndication";
 import {
     fetchTextByKeyboardLayoutType,
+    selectPracticePreparingState,
     setKeyboardLayoutType,
     setPracticeStatus,
     setWithAlwaysDisplayErrors,
@@ -21,7 +22,7 @@ interface IProps {}
 const PracticePreparingCard: React.FC<IProps> = () => {
     const dispatch = useAppDispatch();
     const { keyboardLayoutType, withAlwaysDisplayErrors } = useAppSelector(
-        (state) => state.practice.preparing
+        selectPracticePreparingState
     );
 
     const onLayoutTypeChange: FormEventHandler<HTMLInputElement> = (e) => {
@@ -58,7 +59,7 @@ const PracticePreparingCard: React.FC<IProps> = () => {
                     />
                 </div>
                 <CheckboxStyled
-                    label="Постоянно отображать неверно введенные символы"
+                    label="Помечать неверно введенные символы"
                     checked={withAlwaysDisplayErrors}
                     onChange={onAlwaysDisplayErrorsChange}
                     style={{ margin: "15px" }}

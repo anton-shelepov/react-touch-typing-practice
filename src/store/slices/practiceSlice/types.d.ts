@@ -5,7 +5,6 @@ import PracticeStatus from "../../../utils/enums/practiceStatus.enum";
 export interface IPracticeState {
     preparing: PracticePreparingState;
     process: PracticeProcessState;
-    result: PracticeResultState;
     loading: LoadingStatus;
     status: PracticeStatus;
 }
@@ -19,15 +18,18 @@ export type PracticeProcessState = {
     text: string;
     mistakesCount: number;
     currentCharChecking: CurrentCharChecking;
-    time: {
-        totalSeconds: number;
-        formattedTime: string;
-    };
+    time: ProcessTime;
+    maxTypingSpeed: number;
 };
+
+// Common types
 
 export type CurrentCharChecking = {
     char: string;
     index: number;
 };
 
-export type PracticeResultState = {};
+export type ProcessTime = {
+    totalSeconds: number;
+    formattedTime: string;
+};

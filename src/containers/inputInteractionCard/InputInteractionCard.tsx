@@ -2,38 +2,39 @@ import {
     ChangeEventHandler,
     FocusEventHandler,
     KeyboardEventHandler,
+    useEffect,
     useRef,
-    useState,
 } from "react";
 import InteractionStatistics from "../../components/interactionStatistics/InteractionStatistics";
 import ProgressBar from "../../components/progressBar/ProgressBar";
 import WordProcessing from "../../components/wordProcessing/WordProcessing";
+import {
+    selectPracticePreparingState,
+    selectPracticeProcessState,
+    setCurrentCharChecking,
+    setMaxTypingSpeed,
+    setMistakesCount,
+    setPracticeStatus,
+} from "../../store/slices/practiceSlice/practiceSlice";
+import PracticeStatus from "../../utils/enums/practiceStatus.enum";
 import useAppDispatch from "../../utils/hooks/useAppDispatch";
 import useAppSelector from "../../utils/hooks/useAppSelector";
 import s from "./InputInteractionCard.module.scss";
 
-interface IProps {
-    text: string;
-}
+interface IProps {}
 
-type CurrentCharChecking = {
-    char: string;
-    index: number;
-};
-
-const InputInteractionCard: React.FC<IProps> = ({ text }) => {
+const InputInteractionCard: React.FC<IProps> = () => {
     const progress = useRef(0);
     const dispatch = useAppDispatch();
 
-    const [mistakesCount, setMistakesCount] = useState(0);
-    const [currentCharChecking, setCurrentCharChecking] = useState<CurrentCharChecking>({
-        char: text[0],
-        index: 0,
-    });
-
-    const withAlwaysDisplayErrors = useAppSelector(
-        (state) => state.practice.preparing.withAlwaysDisplayErrors
+    const { withAlwaysDisplayErrors } = useAppSelector(selectPracticePreparingState);
+    const { text, currentCharChecking, mistakesCount, maxTypingSpeed } = useAppSelector(
+        selectPracticeProcessState
     );
+
+    useEffect(() => {
+        dispatch(setCurrentCharChecking({ char: text[0], index: 240 }));
+    }, []);
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
         e.currentTarget.focus();
@@ -46,18 +47,36 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
 
     const checkAndСonfirmOrDeniedInputValue = (value: string) => {
         if (value[value.length - 1] === currentCharChecking.char) {
-            progress.current = ((currentCharChecking.index + 1) / text.length) * 100;
-            setCurrentCharChecking({
-                char: text[currentCharChecking.index + 1],
-                index: currentCharChecking.index + 1,
-            });
+            if (currentCharChecking.index === text.length - 1) {
+                dispatch(setPracticeStatus(PracticeStatus.FINISHED));
+                return;
+            }
+            dispatch(
+                setCurrentCharChecking({
+                    char: text[currentCharChecking.index + 1],
+                    index: currentCharChecking.index + 1,
+                })
+            );
+            IncreaseProgress();
             return;
         }
-        setMistakesCount(mistakesCount + 1);
+        dispatch(setMistakesCount(mistakesCount + 1));
+    };
+
+    const IncreaseProgress = () => {
+        progress.current = ((currentCharChecking.index + 1) / text.length) * 100;
     };
 
     const onBackspacePreventDefault: KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === "Backspace") e.preventDefault();
+    };
+
+    const onHandleRestartClick = () => {
+        dispatch(setPracticeStatus(PracticeStatus.PREPARING));
+    };
+
+    const onReachedNewMaxSpeed = (value: number) => {
+        dispatch(setMaxTypingSpeed(value));
     };
 
     return (
@@ -79,6 +98,9 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
             <InteractionStatistics
                 completeCount={currentCharChecking.index}
                 mistakesCount={mistakesCount}
+                onHandleRestartClick={onHandleRestartClick}
+                onReachedNewMaxSpeed={onReachedNewMaxSpeed}
+                maxSpeed={maxTypingSpeed}
             />
         </div>
     );

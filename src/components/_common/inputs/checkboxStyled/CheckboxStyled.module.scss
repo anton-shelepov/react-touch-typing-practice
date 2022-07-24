@@ -24,14 +24,14 @@
             content: "";
             position: absolute;
             bottom: -50%;
-            left: rem(-11);
-            transform: translate(0, -45%);
+            left: rem(-12);
+            transform: translate(0, -40%);
             display: inline-block;
             text-align: center;
             padding: rem(5);
             width: rem(20);
             height: rem(20);
-            border-radius: rem(25);
+            border-radius: rem(6);
             border: 2px solid $color-orange-dark;
             transition: background-color 0.3s;
         }
