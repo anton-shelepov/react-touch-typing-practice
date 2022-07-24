@@ -5,10 +5,11 @@ import {
     useRef,
     useState,
 } from "react";
-import ProgressBar from "../../components/progressBar/ProgressBar";
-import s from "./InputInteractionCard.module.scss";
 import InteractionStatistics from "../../components/interactionStatistics/InteractionStatistics";
+import ProgressBar from "../../components/progressBar/ProgressBar";
 import WordProcessing from "../../components/wordProcessing/WordProcessing";
+import useAppSelector from "../../utils/hooks/useAppSelector";
+import s from "./InputInteractionCard.module.scss";
 
 interface IProps {
     text: string;
@@ -20,13 +21,17 @@ type CurrentCharChecking = {
 };
 
 const InputInteractionCard: React.FC<IProps> = ({ text }) => {
+    const progress = useRef(0);
+
     const [mistakesCount, setMistakesCount] = useState(0);
     const [currentCharChecking, setCurrentCharChecking] = useState<CurrentCharChecking>({
         char: text[0],
         index: 0,
     });
 
-    const progress = useRef(0);
+    const withAlwaysDisplayErrors = useAppSelector(
+        (state) => state.practice.preparing.withAlwaysDisplayErrors
+    );
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
         e.currentTarget.focus();
@@ -34,6 +39,10 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
 
     const onHandleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const value = e.currentTarget.value;
+        checkAndСonfirmOrDeniedInputValue(value);
+    };
+
+    const checkAndСonfirmOrDeniedInputValue = (value: string) => {
         if (value[value.length - 1] === currentCharChecking.char) {
             progress.current = ((currentCharChecking.index + 1) / text.length) * 100;
             setCurrentCharChecking({
@@ -63,11 +72,11 @@ const InputInteractionCard: React.FC<IProps> = ({ text }) => {
                 text={text}
                 charCheckingIndex={currentCharChecking.index}
                 mistakesCount={mistakesCount}
+                alwaysDisplayWrongs={withAlwaysDisplayErrors}
             />
             <InteractionStatistics
-                completedCount={currentCharChecking.index}
+                completeCount={currentCharChecking.index}
                 mistakesCount={mistakesCount}
-                textLength={text.length}
             />
         </div>
     );

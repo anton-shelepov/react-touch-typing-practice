@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import practiceAPI from "../../../api/practice/practiceAPI";
 import KeyboardLayout from "../../../utils/enums/keyboardLayout.enum";
 import LoadingStatus from "../../../utils/enums/loadingStatus.enum";
 import PracticeStatus from "../../../utils/enums/practiceStatus.enum";
-import { IPracticeState } from "./types";
+import { IPracticeState, PracticeProcessState, PracticeResultState } from "./types";
 
 export const fetchTextByKeyboardLayoutType = createAsyncThunk(
     "practice/fetchTextByKeyboardLayoutType",
@@ -20,15 +20,30 @@ export const fetchTextByKeyboardLayoutType = createAsyncThunk(
 );
 
 const initialState: IPracticeState = {
-    text: "",
+    preparing: {
+        keyboardLayoutType: KeyboardLayout.RU,
+        withAlwaysDisplayErrors: true,
+    },
+    process: {} as PracticeProcessState,
+    result: {} as PracticeResultState,
     loading: LoadingStatus.IDLE,
-    status: PracticeStatus.PROCESSING,
+    status: PracticeStatus.PREPARING,
 };
 
 const practiceSlice = createSlice({
     name: "practice",
     initialState,
-    reducers: {},
+    reducers: {
+        setKeyboardLayoutType(state, action: PayloadAction<KeyboardLayout>) {
+            state.preparing.keyboardLayoutType = action.payload;
+        },
+        setWithAlwaysDisplayErrors(state, action: PayloadAction<boolean>) {
+            state.preparing.withAlwaysDisplayErrors = action.payload;
+        },
+        setPracticeStatus(state, action: PayloadAction<PracticeStatus>) {
+            state.status = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchTextByKeyboardLayoutType.pending, (state) => {
             state.loading = LoadingStatus.PENDING;
@@ -36,7 +51,7 @@ const practiceSlice = createSlice({
         builder.addCase(fetchTextByKeyboardLayoutType.fulfilled, (state, action) => {
             state.loading = LoadingStatus.SUCCEEDED;
             if (action.payload) {
-                state.text = action.payload;
+                state.process.text = action.payload;
             }
         });
         builder.addCase(fetchTextByKeyboardLayoutType.rejected, (state) => {
@@ -44,5 +59,8 @@ const practiceSlice = createSlice({
         });
     },
 });
+
+export const { setKeyboardLayoutType, setPracticeStatus, setWithAlwaysDisplayErrors } =
+    practiceSlice.actions;
 
 export default practiceSlice;

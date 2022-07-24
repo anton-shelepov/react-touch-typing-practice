@@ -6,11 +6,12 @@ interface IProps {
     value: string;
     iconName: SvgIcon;
     color?: string;
+    onClick: () => void;
 }
 
-const ButtonTransparentWithIcon: React.FC<IProps> = ({ value, iconName, ...styles }) => {
+const ButtonTransparentWithIcon: React.FC<IProps> = ({ value, iconName, onClick, ...styles }) => {
     return (
-        <button style={{ ...styles }} className={s.rounded_button}>
+        <button style={{ ...styles }} className={s.rounded_button} onClick={onClick}>
             <SvgSelector iconName={iconName} color={styles.color} />
             {value}
         </button>

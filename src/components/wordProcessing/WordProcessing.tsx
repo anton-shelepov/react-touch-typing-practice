@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import s from "./WordProcessing.module.scss";
 
 interface IProps {
@@ -24,12 +24,16 @@ const WordProcessing: React.FC<IProps> = ({
             } else {
                 spanElement.current.classList.add(s.wrong);
             }
-            spanElement.current.classList.add(s.blinking);
-            setTimeout(() => {
-                spanElement.current!.classList.remove(s.blinking);
-            }, 100);
+            blinkEffect(spanElement);
         }
     }, [mistakesCount]);
+
+    const blinkEffect = (element: RefObject<HTMLSpanElement>) => {
+        element.current!.classList.add(s.blinking);
+        setTimeout(() => {
+            element.current!.classList.remove(s.blinking);
+        }, 100);
+    };
 
     const splittedText = text.split("");
 

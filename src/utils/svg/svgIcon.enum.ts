@@ -4,6 +4,7 @@ enum SvgIcon {
     RESTART = "RESTART",
     LOADER = "LOADER",
     CLOCK = "CLOCK",
+    ALERT = "ALERT",
 }
 
 export default SvgIcon;

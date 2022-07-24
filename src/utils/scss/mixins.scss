@@ -5,3 +5,11 @@
     padding: rem(15);
     margin-top: rem(65);
 }
+
+@mixin card-rounded {
+    position: relative;
+    border: 2px solid $color-orange-light;
+    border-radius: rem(25);
+    max-width: rem(800);
+    margin: 0 auto;
+}

@@ -1,0 +1,42 @@
+@import "/src/utils/scss";
+
+.container {
+    @include card-rounded;
+    overflow: hidden;
+
+    .title {
+        text-align: center;
+        font-weight: normal;
+        font-size: rem(23);
+        padding: rem(25);
+        background-color: $color-orange-light;
+        color: white;
+    }
+
+    .practice_settings_wrapper {
+        padding: rem(25);
+
+        .layout_settings {
+            margin: rem(15) 0 rem(35) 0;
+            display: flex;
+            justify-content: space-evenly;
+        }
+    }
+
+    .notification {
+        display: flex;
+        align-items: center;
+        padding: 0 rem(25);
+        color: white;
+        background-color: $color-orange-light;
+        line-height: 1.5;
+        font-size: rem(15);
+        letter-spacing: 1.7px;
+
+        svg {
+            width: rem(50);
+            height: rem(50);
+            margin-right: rem(20);
+        }
+    }
+}

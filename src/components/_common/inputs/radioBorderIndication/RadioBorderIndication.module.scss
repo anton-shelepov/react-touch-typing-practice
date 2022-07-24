@@ -1,0 +1,35 @@
+@import "/src/utils/scss";
+
+.container {
+    margin: rem(5) 0;
+    position: relative;
+    color: $color-black;
+    font-size: rem(18);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.3s;
+
+    &::after {
+        position: absolute;
+        bottom: rem(-3);
+        transition: width 0.3s;
+        left: 0;
+        content: "";
+        height: 2px;
+        width: 0;
+        background-color: $color-orange-dark;
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        background-color: #fff;
+        margin: 0;
+    }
+}
+
+.active {
+    opacity: 1;
+    &::after {
+        width: 100%;
+    }
+}
