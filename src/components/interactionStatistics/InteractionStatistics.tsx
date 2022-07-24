@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import useTimeFromRender from "../../utils/hooks/useTimeFromRender";
+import getInputsAccuracy from "../../utils/scripts/getInputsAccuracy";
 import SvgIcon from "../../utils/svg/svgIcon.enum";
 import StatisticsItem from "../statisticsItem/StatisticsItem";
 import ButtonTransparentWithIcon from "../_common/buttons/buttonTransparentWithIcon/ButtonTransparentWithIcon";
@@ -23,17 +24,12 @@ const InteractionStatistics: React.FC<IProps> = ({
     const [totalSecondsFromStart, formattedTimeFromStart] = useTimeFromRender();
 
     const totalInputsCount = mistakesCount + completeCount;
-
-    // Точность рассчитывается как соотношение общего количества введенных символов (включая ошибки)
-    // к количеству ошибок, при каждом повторном совершении неверного ввода, количество ошибок увеличивается
-    const getAccuracy = () => {
-        return 100 - (mistakesCount / (totalInputsCount || 1)) * 100;
-    };
+    const accuracy = getInputsAccuracy(mistakesCount, totalInputsCount);
 
     const getSpeed = useCallback(() => {
         const speed = Math.round((completeCount / totalSecondsFromStart) * 60) || 0;
         if (speed > maxSpeed) {
-            maxSpeed = speed;
+            onReachedNewMaxSpeed(speed);
         }
         return speed;
     }, [totalSecondsFromStart]);
@@ -51,7 +47,7 @@ const InteractionStatistics: React.FC<IProps> = ({
                     iconName={SvgIcon.ACCURACY}
                     name="Точность"
                     unit="%"
-                    value={getAccuracy().toFixed(2)}
+                    value={accuracy}
                 />
                 <StatisticsItem
                     iconName={SvgIcon.CLOCK}

@@ -2,13 +2,19 @@ import SvgIcon from "../../utils/svg/svgIcon.enum";
 import SvgSelector from "../../utils/svg/SvgSelector";
 import s from "./ResultInfoItem.module.scss";
 
-interface IProps {
+export interface IResultInfoItemProps {
     iconName: SvgIcon;
     resultItemName: string;
     value: string | number;
+    unit?: string | number;
 }
 
-const ResultInfoItem: React.FC<IProps> = ({ iconName, resultItemName, value }) => {
+const ResultInfoItem: React.FC<IResultInfoItemProps> = ({
+    iconName,
+    resultItemName,
+    value,
+    unit = "",
+}) => {
     return (
         <div className={s.container}>
             <div className={s.block_left}>
@@ -16,7 +22,7 @@ const ResultInfoItem: React.FC<IProps> = ({ iconName, resultItemName, value }) =
                 <span className={s.result_name}>{resultItemName}</span>
             </div>
             <div className={s.block_right}>
-                <span className={s.value}>{value}</span>
+                <span className={s.value}>{`${value}${unit}`}</span>
             </div>
         </div>
     );

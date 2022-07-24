@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import {
+    selectPracticeProcessState,
+    setTime,
+} from "../../store/slices/practiceSlice/practiceSlice";
 import formatTime from "../scripts/formatTime";
+import useAppDispatch from "./useAppDispatch";
+import useAppSelector from "./useAppSelector";
 
 const useTimeFromRender = (): [number, string] => {
-    const [time, setTime] = useState({
-        totalSeconds: 0,
-        formattedTime: "00:00",
-    });
+    const dispatch = useAppDispatch();
+    const { time } = useAppSelector(selectPracticeProcessState);
 
     useEffect(() => {
         // Переменные для создания времени формата - 00:00:00
@@ -28,10 +32,12 @@ const useTimeFromRender = (): [number, string] => {
             if (hours > 23) {
                 hours = 0;
             }
-            setTime({
-                totalSeconds,
-                formattedTime: formatTime({ hours, minutes, seconds }),
-            });
+            dispatch(
+                setTime({
+                    totalSeconds,
+                    formattedTime: formatTime({ hours, minutes, seconds }),
+                })
+            );
         }, 1000);
         return () => clearInterval(interval);
     }, []);
