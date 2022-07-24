@@ -1,0 +1,14 @@
+@import "/src/utils/scss";
+
+.container {
+    @include card-rounded;
+    .title {
+        @include card-title;
+    }
+    .result_info {
+        padding: rem(25);
+    }
+    .buttons {
+        padding: rem(25);
+    }
+}

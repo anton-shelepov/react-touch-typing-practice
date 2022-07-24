@@ -18,7 +18,7 @@ import s from "./PracticePreparingCard.module.scss";
 
 interface IProps {}
 
-const PracticePreparing: React.FC<IProps> = () => {
+const PracticePreparingCard: React.FC<IProps> = () => {
     const dispatch = useAppDispatch();
     const { keyboardLayoutType, withAlwaysDisplayErrors } = useAppSelector(
         (state) => state.practice.preparing
@@ -61,6 +61,7 @@ const PracticePreparing: React.FC<IProps> = () => {
                     label="Постоянно отображать неверно введенные символы"
                     checked={withAlwaysDisplayErrors}
                     onChange={onAlwaysDisplayErrorsChange}
+                    style={{ margin: "15px" }}
                 />
                 <ButtonRounded buttonText="Начать тренировку" onClick={onHandleStartClick} />
             </div>
@@ -75,4 +76,4 @@ const PracticePreparing: React.FC<IProps> = () => {
     );
 };
 
-export default PracticePreparing;
+export default PracticePreparingCard;

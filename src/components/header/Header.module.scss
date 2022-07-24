@@ -7,6 +7,7 @@
     width: 100%;
     background-color: $color-orange-light;
     height: rem(50);
+    @include unselectable;
 
     .container {
         display: flex;

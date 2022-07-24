@@ -8,6 +8,11 @@
     opacity: 0.7;
     cursor: pointer;
     transition: opacity 0.3s;
+    @include unselectable;
+
+    &:hover {
+        opacity: 1;
+    }
 
     &::after {
         position: absolute;

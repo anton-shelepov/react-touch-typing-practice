@@ -17,6 +17,17 @@ export type PracticePreparingState = {
 
 export type PracticeProcessState = {
     text: string;
+    mistakesCount: number;
+    currentCharChecking: CurrentCharChecking;
+    time: {
+        totalSeconds: number;
+        formattedTime: string;
+    };
+};
+
+export type CurrentCharChecking = {
+    char: string;
+    index: number;
 };
 
 export type PracticeResultState = {};

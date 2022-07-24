@@ -8,6 +8,7 @@ import {
 import InteractionStatistics from "../../components/interactionStatistics/InteractionStatistics";
 import ProgressBar from "../../components/progressBar/ProgressBar";
 import WordProcessing from "../../components/wordProcessing/WordProcessing";
+import useAppDispatch from "../../utils/hooks/useAppDispatch";
 import useAppSelector from "../../utils/hooks/useAppSelector";
 import s from "./InputInteractionCard.module.scss";
 
@@ -22,6 +23,7 @@ type CurrentCharChecking = {
 
 const InputInteractionCard: React.FC<IProps> = ({ text }) => {
     const progress = useRef(0);
+    const dispatch = useAppDispatch();
 
     const [mistakesCount, setMistakesCount] = useState(0);
     const [currentCharChecking, setCurrentCharChecking] = useState<CurrentCharChecking>({

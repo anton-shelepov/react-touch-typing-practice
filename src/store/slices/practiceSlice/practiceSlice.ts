@@ -27,7 +27,7 @@ const initialState: IPracticeState = {
     process: {} as PracticeProcessState,
     result: {} as PracticeResultState,
     loading: LoadingStatus.IDLE,
-    status: PracticeStatus.PREPARING,
+    status: PracticeStatus.FINISHED,
 };
 
 const practiceSlice = createSlice({

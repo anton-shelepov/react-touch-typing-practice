@@ -16,6 +16,7 @@ interface IProps {
 const InteractionStatistics: React.FC<IProps> = ({ mistakesCount, completeCount }) => {
     const dispatch = useAppDispatch();
     const [totalSecondsFromStart, formattedTimeFromStart] = useTimeFromRender();
+
     const totalInputsCount = mistakesCount + completeCount;
 
     // Точность рассчитывается как соотношение общего количества введенных символов (включая ошибки)

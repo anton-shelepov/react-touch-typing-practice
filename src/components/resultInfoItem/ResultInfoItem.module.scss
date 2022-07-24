@@ -1,0 +1,35 @@
+@import "/src/utils/scss";
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $color-black;
+    font-size: rem(19);
+    padding: rem(15) 0;
+    &:last-child {
+        border: 0;
+    }
+    .block_left {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        svg {
+            margin-right: rem(15);
+            width: rem(60);
+            height: rem(60);
+        }
+        .result_name {
+            padding-bottom: rem(5);
+            border-bottom: 1px dotted rgba(0, 0, 0, 0.274);
+            flex: 1;
+        }
+    }
+    .block_right {
+        .value {
+            font-weight: bold;
+            padding-bottom: rem(5);
+            margin-left: rem(10);
+        }
+    }
+}
