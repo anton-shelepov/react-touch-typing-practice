@@ -67,7 +67,7 @@ const practiceSlice = createSlice({
         setCurrentCharChecking(state, action: PayloadAction<CurrentCharChecking>) {
             state.process.currentCharChecking = action.payload;
         },
-        setTime(state, action: PayloadAction<ProcessTime>) {
+        setTimeFromStart(state, action: PayloadAction<ProcessTime>) {
             state.process.time = action.payload;
         },
         setMaxTypingSpeed(state, action: PayloadAction<number>) {
@@ -102,7 +102,7 @@ export const {
     setWithAlwaysDisplayErrors,
     setCurrentCharChecking,
     setMistakesCount,
-    setTime,
+    setTimeFromStart,
     setMaxTypingSpeed,
     resetProcessState,
 } = practiceSlice.actions;

@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import useTimeFromRender from "../../utils/hooks/useTimeFromRender";
+import { useEffect, useMemo } from "react";
+import useTimeFromPracticeStart from "../../utils/hooks/useTimeFromPracticeStart";
 import getInputsAccuracy from "../../utils/scripts/getInputsAccuracy";
 import SvgIcon from "../../utils/svg/svgIcon.enum";
 import StatisticsItem from "../statisticsItem/StatisticsItem";
@@ -21,18 +21,21 @@ const InteractionStatistics: React.FC<IProps> = ({
     maxSpeed,
     onReachedNewMaxSpeed,
 }) => {
-    const [totalSecondsFromStart, formattedTimeFromStart] = useTimeFromRender();
+    const [totalSecondsFromStart, formattedTimeFromStart] = useTimeFromPracticeStart();
 
     const totalInputsCount = mistakesCount + completeCount;
     const accuracy = getInputsAccuracy(mistakesCount, totalInputsCount);
 
-    const getSpeed = useCallback(() => {
+    const currentSpeed = useMemo(() => {
         const speed = Math.round((completeCount / totalSecondsFromStart) * 60) || 0;
-        if (speed > maxSpeed) {
-            onReachedNewMaxSpeed(speed);
-        }
         return speed;
     }, [totalSecondsFromStart]);
+
+    useEffect(() => {
+        if (currentSpeed > maxSpeed) {
+            onReachedNewMaxSpeed(currentSpeed);
+        }
+    }, [currentSpeed]);
 
     return (
         <div className={s.container}>
@@ -41,7 +44,7 @@ const InteractionStatistics: React.FC<IProps> = ({
                     iconName={SvgIcon.SPEED}
                     name="Скорость"
                     unit=" зн/м"
-                    value={getSpeed()}
+                    value={currentSpeed}
                 />
                 <StatisticsItem
                     iconName={SvgIcon.ACCURACY}

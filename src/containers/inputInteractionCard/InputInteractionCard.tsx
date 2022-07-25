@@ -11,6 +11,7 @@ import WordProcessing from "../../components/wordProcessing/WordProcessing";
 import {
     selectPracticePreparingState,
     selectPracticeProcessState,
+    selectPracticeState,
     setCurrentCharChecking,
     setMaxTypingSpeed,
     setMistakesCount,
@@ -27,13 +28,14 @@ const InputInteractionCard: React.FC<IProps> = () => {
     const progress = useRef(0);
     const dispatch = useAppDispatch();
 
+    const { status } = useAppSelector(selectPracticeState);
     const { withAlwaysDisplayErrors } = useAppSelector(selectPracticePreparingState);
     const { text, currentCharChecking, mistakesCount, maxTypingSpeed } = useAppSelector(
         selectPracticeProcessState
     );
 
     useEffect(() => {
-        dispatch(setCurrentCharChecking({ char: text[0], index: 240 }));
+        dispatch(setCurrentCharChecking({ char: text[0], index: 0 }));
     }, []);
 
     const onHandleBlur: FocusEventHandler<HTMLInputElement> = (e) => {

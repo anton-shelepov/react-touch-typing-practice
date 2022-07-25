@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from "react";
+import { MutableRefObject, RefObject, useEffect, useRef } from "react";
 import s from "./WordProcessing.module.scss";
 
 interface IProps {
@@ -15,6 +15,7 @@ const WordProcessing: React.FC<IProps> = ({
     alwaysDisplayWrongs = true,
 }) => {
     const spanElement = useRef<HTMLSpanElement>(null);
+    const blinkTimeoutId = useRef(setTimeout("", 0));
 
     useEffect(() => {
         if (spanElement.current && mistakesCount) {
@@ -24,13 +25,14 @@ const WordProcessing: React.FC<IProps> = ({
             } else {
                 spanElement.current.classList.add(s.wrong);
             }
-            blinkEffect(spanElement);
+            blinkEffect(spanElement, blinkTimeoutId);
         }
+        return () => clearTimeout(blinkTimeoutId.current);
     }, [mistakesCount]);
 
-    const blinkEffect = (element: RefObject<HTMLSpanElement>) => {
+    const blinkEffect = (element: RefObject<HTMLSpanElement>, timeoutId: MutableRefObject<any>) => {
         element.current!.classList.add(s.blinking);
-        setTimeout(() => {
+        timeoutId.current = setTimeout(() => {
             element.current!.classList.remove(s.blinking);
         }, 100);
     };

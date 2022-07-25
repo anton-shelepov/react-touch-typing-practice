@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import {
     selectPracticeProcessState,
-    setTime,
+    setTimeFromStart,
 } from "../../store/slices/practiceSlice/practiceSlice";
 import formatTime from "../scripts/formatTime";
 import useAppDispatch from "./useAppDispatch";
 import useAppSelector from "./useAppSelector";
 
-const useTimeFromRender = (): [number, string] => {
+const useTimeFromPracticeStart = (): [number, string] => {
     const dispatch = useAppDispatch();
     const { time } = useAppSelector(selectPracticeProcessState);
 
@@ -33,7 +33,7 @@ const useTimeFromRender = (): [number, string] => {
                 hours = 0;
             }
             dispatch(
-                setTime({
+                setTimeFromStart({
                     totalSeconds,
                     formattedTime: formatTime({ hours, minutes, seconds }),
                 })
@@ -45,4 +45,4 @@ const useTimeFromRender = (): [number, string] => {
     return [time.totalSeconds, time.formattedTime];
 };
 
-export default useTimeFromRender;
+export default useTimeFromPracticeStart;

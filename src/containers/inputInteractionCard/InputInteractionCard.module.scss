@@ -3,6 +3,7 @@
 .container {
     @include card-rounded;
     overflow: hidden;
+    min-width: rem(699);
 
     .input_hidden {
         position: fixed;
